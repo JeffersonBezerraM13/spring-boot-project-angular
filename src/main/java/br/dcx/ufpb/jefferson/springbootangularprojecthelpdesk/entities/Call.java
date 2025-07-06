@@ -2,20 +2,39 @@ package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities;
 
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Priorit;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Status;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
+import org.hibernate.annotations.NaturalId;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Call {
+@Entity
+public class Call implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate openingDate = LocalDate.now();
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate closingDate;
+
+
     private Priorit priorit;
     private Status status;
     private String title;
     private String observations;
 
+    @ManyToOne
+    @JoinColumn(name = "technical_id")
     private Technical technical;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
     private Client client;
 
     public Call() {

@@ -1,6 +1,8 @@
 package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities;
 
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Profile;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 import org.springframework.cglib.core.Local;
 
 import java.io.Serializable;
@@ -10,14 +12,31 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Entity
 public abstract class Person implements Serializable {
+    private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected Integer id;
     protected String name;
+
+    //coluna de cpf é unica, não pode existir dois CPF no db
+    @Column(unique = true)
     protected String cpf;
+
+    //coluna de email é unica, não pode existir dois email no db
+    @Column(unique = true)
     protected String email;
+
     protected String password;
+
+    //quando der o GET do usuario essa lista virá junto
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "profiles")
     protected Set<Integer> profiles = new HashSet<>();
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     protected LocalDate created = LocalDate.now();
 
     public Person (){
