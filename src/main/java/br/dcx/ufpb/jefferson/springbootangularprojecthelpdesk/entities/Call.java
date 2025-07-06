@@ -4,7 +4,6 @@ import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Pri
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import org.hibernate.annotations.NaturalId;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -40,9 +39,9 @@ public class Call implements Serializable {
     public Call() {
     }
 
-    public Call(Priorit priorit, Integer id, Status status, String title, String observations, Technical technical, Client client) {
-        this.priorit = priorit;
+    public Call(Integer id, Priorit priorit, Status status, String title, String observations, Technical technical, Client client) {
         this.id = id;
+        this.priorit = priorit;
         this.status = status;
         this.title = title;
         this.observations = observations;
