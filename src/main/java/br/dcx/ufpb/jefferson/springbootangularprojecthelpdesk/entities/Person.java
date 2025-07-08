@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
+@Table(name = "person_tb")
 public abstract class Person implements Serializable {
     private static final long serialVersionUID = 1L;
 

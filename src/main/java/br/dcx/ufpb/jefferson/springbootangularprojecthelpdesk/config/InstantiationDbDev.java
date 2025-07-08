@@ -4,7 +4,6 @@ import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.Call;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.Client;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.Technical;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Priorit;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Profile;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Status;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.CallRepository;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.ClientRepository;
@@ -13,15 +12,11 @@ import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.Techn
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
-/**
- * Carga incial de teste para popular o bando de dados
- */
 @Configuration
-//chamando o absoluto para não dar conflito com o profile da minha aplicação
-@org.springframework.context.annotation.Profile("test")
-public class InstantiationDbTest implements CommandLineRunner {
-
+@Profile("dev")
+public class InstantiationDbDev implements CommandLineRunner {
     @Autowired
     private CallRepository callRepository;
 
@@ -39,7 +34,7 @@ public class InstantiationDbTest implements CommandLineRunner {
         cleanDb();
 
         Technical tech1 = new Technical(null,"Bob Green","906.812.820-53","bob@gmail.com","123");
-        tech1.addProfile(Profile.ADMIN);
+        tech1.addProfile(br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Profile.ADMIN);
 
         Client cli1 = new Client(null,"Ana Pink", "859.288.630-98","ana@gmail.com,","123");
 

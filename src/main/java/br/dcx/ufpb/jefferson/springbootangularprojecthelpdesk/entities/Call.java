@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
+@Table(name="call_tb")
 public class Call implements Serializable {
     private static final long serialVersionUID = 1L;
 

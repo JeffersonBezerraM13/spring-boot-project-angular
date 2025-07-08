@@ -9,5 +9,4 @@ public class SpringBootAngularProjectHelpDeskApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringBootAngularProjectHelpDeskApplication.class, args);
     }
-
 }

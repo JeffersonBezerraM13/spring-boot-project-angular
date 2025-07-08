@@ -3,6 +3,7 @@ package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Profile;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import java.io.Serializable;
 import java.util.ArrayList;
