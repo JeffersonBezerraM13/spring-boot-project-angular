@@ -1,4 +1,24 @@
 package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.resources;
 
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.Technical;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.TechnicalRepository;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.db.TechnicalService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping(value = "/technicians")
 public class TechnicalResource {
+
+    @Autowired
+    private TechnicalService technicalService;
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Technical> getTechnicalById(@PathVariable Integer id) {
+        return ResponseEntity.ok().body(technicalService.findById(id));
+    }
 }

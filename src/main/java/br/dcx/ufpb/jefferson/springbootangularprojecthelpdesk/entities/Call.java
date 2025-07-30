@@ -3,6 +3,7 @@ package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Priorit;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
