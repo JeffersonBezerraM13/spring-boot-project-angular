@@ -10,12 +10,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/technicians")
 public class TechnicalResource {
 
     @Autowired
     private TechnicalService technicalService;
+
+    @GetMapping
+    public ResponseEntity<List<Technical>> findAll() {
+        return ResponseEntity.ok().body(technicalService.findAll());
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Technical> getTechnicalById(@PathVariable Integer id) {
