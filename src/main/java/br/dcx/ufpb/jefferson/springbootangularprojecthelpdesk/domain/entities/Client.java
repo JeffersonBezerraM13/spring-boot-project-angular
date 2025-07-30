@@ -1,29 +1,27 @@
-package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities;
+package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities;
 
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Profile;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Profile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Technical extends Person implements Serializable {
+public class Client extends Person implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "technical")
+    @OneToMany(mappedBy = "client")
     private List<Call> calls = new ArrayList<Call>();
 
-    public Technical() {
+    public Client() {
         addProfile(Profile.CLIENT);
     }
 
-    public Technical(Integer id, String name, String cpf, String email, String password) {
+    public Client(Integer id, String name, String cpf, String email, String password) {
         super(id, name, cpf, email, password);
         addProfile(Profile.CLIENT);
     }

@@ -1,14 +1,14 @@
-package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums;
+package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums;
 
-public enum Status {
-    OPEN(0,"LOW"),
-    IN_PROGRESS(1,"MEDIUM"),
-    CLOSED(2,"HIGH");
+public enum Profile {
+    ADMIN(0,"ROLE_ADMIN"),
+    CLIENT(1,"ROLE_CLIENT"),
+    TECHNICAL(2,"ROLE_TECHNICAL");
 
     private Integer code;
     private String description;
 
-    Status(Integer valor, String role) {
+    Profile(Integer valor, String role) {
         this.code = valor;
         this.description = role;
     }
@@ -21,11 +21,11 @@ public enum Status {
         return description;
     }
 
-    public static Status toEnum(Integer code){
+    public static Profile toEnum(Integer code){
         if(code == null){
             return null;
         }
-        for(Status p : Status.values()){
+        for(Profile p : Profile.values()){
             if(p.getCode().equals(code)){
                 return p;
             }

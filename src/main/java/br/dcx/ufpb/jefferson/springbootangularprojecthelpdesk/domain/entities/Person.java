@@ -1,9 +1,8 @@
-package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities;
+package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities;
 
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Profile;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Profile;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
 
 import java.io.Serializable;
 import java.time.LocalDate;

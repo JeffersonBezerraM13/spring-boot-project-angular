@@ -1,7 +1,7 @@
 package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.resources;
 
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.Technical;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.TechnicalRepository;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Technical;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.dtos.TechnicalDTO;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.db.TechnicalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,9 @@ public class TechnicalResource {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Technical> getTechnicalById(@PathVariable Integer id) {
-        return ResponseEntity.ok().body(technicalService.findById(id));
+    public ResponseEntity<TechnicalDTO> getTechnicalById(@PathVariable Integer id) {
+        return ResponseEntity
+                .ok()
+                .body(new TechnicalDTO(technicalService.findById(id)));
     }
 }

@@ -1,10 +1,10 @@
 package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.config;
 
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.Call;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.Client;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.Technical;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Priorit;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Status;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Call;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Client;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Technical;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Priorit;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Status;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.CallRepository;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.ClientRepository;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.PersonRepository;
@@ -34,7 +34,7 @@ public class InstantiationDbDev implements CommandLineRunner {
         cleanDb();
 
         Technical tech1 = new Technical(null,"Bob Green","906.812.820-53","bob@gmail.com","123");
-        tech1.addProfile(br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Profile.ADMIN);
+        tech1.addProfile(br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Profile.ADMIN);
 
         Client cli1 = new Client(null,"Ana Pink", "859.288.630-98","ana@gmail.com,","123");
 

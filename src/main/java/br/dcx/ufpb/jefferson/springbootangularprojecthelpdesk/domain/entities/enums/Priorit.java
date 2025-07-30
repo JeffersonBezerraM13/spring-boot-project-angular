@@ -1,14 +1,14 @@
-package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums;
+package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums;
 
-public enum Profile {
-    ADMIN(0,"ROLE_ADMIN"),
-    CLIENT(1,"ROLE_CLIENT"),
-    TECHNICAL(2,"ROLE_TECHNICAL");
+public enum Priorit {
+    LOW(0,"LOW"),
+    MEDIUM(1,"MEDIUM"),
+    HIGH(2,"HIGH");
 
     private Integer code;
     private String description;
 
-    Profile(Integer valor, String role) {
+    Priorit(Integer valor, String role) {
         this.code = valor;
         this.description = role;
     }
@@ -21,11 +21,11 @@ public enum Profile {
         return description;
     }
 
-    public static Profile toEnum(Integer code){
+    public static Priorit toEnum(Integer code){
         if(code == null){
             return null;
         }
-        for(Profile p : Profile.values()){
+        for(Priorit p : Priorit.values()){
             if(p.getCode().equals(code)){
                 return p;
             }

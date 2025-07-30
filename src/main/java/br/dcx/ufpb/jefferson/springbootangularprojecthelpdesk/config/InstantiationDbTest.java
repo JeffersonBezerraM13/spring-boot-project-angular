@@ -1,11 +1,11 @@
 package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.config;
 
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.Call;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.Client;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.Technical;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Priorit;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Profile;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Status;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Call;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Client;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Technical;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Priorit;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Profile;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Status;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.CallRepository;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.ClientRepository;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.PersonRepository;
