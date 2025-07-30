@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/technicians")
@@ -20,8 +21,12 @@ public class TechnicalResource {
     private TechnicalService technicalService;
 
     @GetMapping
-    public ResponseEntity<List<Technical>> findAll() {
-        return ResponseEntity.ok().body(technicalService.findAll());
+    public ResponseEntity<List<TechnicalDTO>> findAll() {
+        return ResponseEntity
+                .ok()
+                .body(technicalService.findAll().stream()
+                                .map(x -> new TechnicalDTO(x))
+                        .collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/{id}")
