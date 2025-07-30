@@ -1,6 +1,7 @@
 package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities;
 
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.entities.enums.Profile;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -13,6 +14,7 @@ import java.util.List;
 public class Client extends Person implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Call> calls = new ArrayList<Call>();
 
