@@ -2,7 +2,7 @@ package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.resources;
 
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Technical;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.dtos.TechnicalDTO;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.db.TechnicalService;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.TechnicalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
