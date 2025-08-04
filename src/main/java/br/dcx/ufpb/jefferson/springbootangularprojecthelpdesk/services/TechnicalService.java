@@ -7,6 +7,7 @@ import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.Perso
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.TechnicalRepository;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.exceptions.DataIntegrityViolationException;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.exceptions.ObjectNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,14 @@ public class TechnicalService {
         Technical newObj = new Technical(obj);
         //.save() é uma chamada assincrona, ele vai lá no banco primeiro
         return technicalRepository.save(newObj);
+    }
+
+    public Technical update(Integer id, @Valid TechnicalDTO objDTO) {
+        objDTO.setId(id);
+        Technical oldObj = findById(id);
+        validatedByCpfAndEmail(objDTO); //passou dessa linha, não lançou nenhuma exception
+        oldObj = new Technical(objDTO);
+        return technicalRepository.save(oldObj);
     }
 
     private void validatedByCpfAndEmail(TechnicalDTO objDto) {

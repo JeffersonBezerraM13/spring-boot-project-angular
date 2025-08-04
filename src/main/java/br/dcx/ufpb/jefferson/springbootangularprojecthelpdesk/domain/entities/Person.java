@@ -3,6 +3,7 @@ package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Profile;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ public abstract class Person implements Serializable {
     protected Integer id;
     protected String name;
 
+    @CPF
     //coluna de cpf é unica, não pode existir dois CPF no db
     @Column(unique = true)
     protected String cpf;

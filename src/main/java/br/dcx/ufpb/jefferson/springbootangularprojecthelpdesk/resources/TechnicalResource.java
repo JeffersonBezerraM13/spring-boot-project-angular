@@ -48,4 +48,10 @@ public class TechnicalResource {
                 ).toUri();
         return ResponseEntity.created(uri).body(new TechnicalDTO(newObj));
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<TechnicalDTO> update(@PathVariable Integer id,@Valid @RequestBody TechnicalDTO objDTO){
+        Technical obj = technicalService.update(id,objDTO);
+        return ResponseEntity.ok().body(new TechnicalDTO(obj));
+    }
 }
