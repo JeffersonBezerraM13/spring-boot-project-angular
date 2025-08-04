@@ -3,6 +3,7 @@ package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.resources;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Technical;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.dtos.TechnicalDTO;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.TechnicalService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,7 @@ public class TechnicalResource {
     }
 
     @PostMapping
-    public ResponseEntity<TechnicalDTO> create(@RequestBody TechnicalDTO objDTO){
+    public ResponseEntity<TechnicalDTO> create(@Valid @RequestBody TechnicalDTO objDTO){
         Technical newObj = technicalService.create(objDTO);
         //URI é igual a URL. é a URL de acesso da nova entidade criada
         URI uri = ServletUriComponentsBuilder

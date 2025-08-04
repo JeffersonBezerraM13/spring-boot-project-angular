@@ -3,6 +3,8 @@ package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.d
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Technical;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Profile;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -15,9 +17,17 @@ public class TechnicalDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
+    @NotNull(message = "O campo NOME é requirido")
+    @NotBlank(message = "O campo NOME não pode ser vazio")
     private String name;
+    @NotNull(message = "O campo CPF é requirido")
+    @NotBlank(message = "O campo CPF não pode ser vazio")
     private String cpf;
+    @NotNull(message = "O campo EMAIL é requirido")
+    @NotBlank(message = "O campo EMAIL não pode ser vazio")
     private String email;
+    @NotNull(message = "O campo SENHA é requirido")
+    @NotBlank(message = "O campo SENHA não pode ser vazio")
     private String password;
     private Set<Integer> profiles = new HashSet<>();
 

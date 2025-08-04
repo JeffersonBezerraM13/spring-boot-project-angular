@@ -35,13 +35,13 @@ public class TechnicalService {
 
     public Technical create(TechnicalDTO obj){
         obj.setId(null); //nullando o id para que o repository nao entenda que o id possa ser uma atualização
-        validaredByCpfAndEmail(obj);
+        validatedByCpfAndEmail(obj);
         Technical newObj = new Technical(obj);
         //.save() é uma chamada assincrona, ele vai lá no banco primeiro
         return technicalRepository.save(newObj);
     }
 
-    private void validaredByCpfAndEmail(TechnicalDTO objDto) {
+    private void validatedByCpfAndEmail(TechnicalDTO objDto) {
         Optional<Person> person = personRepository.findByCpf(objDto.getCpf());
         if(person.isPresent() && person.get().getId() != objDto.getId()) {
             throw new DataIntegrityViolationException("CPF já cadastrado no sistema");
