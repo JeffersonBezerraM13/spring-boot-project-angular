@@ -39,6 +39,8 @@ public class InstantiationDbTest implements CommandLineRunner {
         cleanDb();
 
         Technical tech1 = new Technical(null,"Bob Green","906.812.820-53","bob@gmail.com","123");
+        Technical tech2 = new Technical(null,"Carl Yellow", "917.489.110-31", "carl@gmail.com","123");
+        technicalRepository.save(tech2);
         tech1.addProfile(Profile.ADMIN);
 
         Client cli1 = new Client(null,"Ana Pink", "859.288.630-98","ana@gmail.com,","123");
@@ -46,6 +48,7 @@ public class InstantiationDbTest implements CommandLineRunner {
         Call c1 = new Call(null, Priorit.MEDIUM, Status.IN_PROGRESS,"Chamado 01","Primeiro chamado",tech1,cli1);
 
         technicalRepository.save(tech1);
+
         clientRepository.save(cli1);
         callRepository.save(c1);
     }
