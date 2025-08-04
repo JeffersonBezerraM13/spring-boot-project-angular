@@ -1,5 +1,6 @@
 package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities;
 
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.dtos.TechnicalDTO;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Profile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
@@ -8,6 +9,7 @@ import jakarta.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Technical extends Person implements Serializable {
@@ -24,6 +26,16 @@ public class Technical extends Person implements Serializable {
     public Technical(Integer id, String name, String cpf, String email, String password) {
         super(id, name, cpf, email, password);
         addProfile(Profile.CLIENT);
+    }
+
+    public Technical(TechnicalDTO technicalDTO) {
+        this.id = technicalDTO.getId();
+        this.name = technicalDTO.getName();
+        this.cpf = technicalDTO.getCpf();
+        this.email = technicalDTO.getEmail();
+        this.password = technicalDTO.getPassword();
+        this.profiles = technicalDTO.getProfiles().stream().map(Profile::getCode).collect(Collectors.toSet());
+        this.created = technicalDTO.getCreated();
     }
 
     public List<Call> getCalls() {

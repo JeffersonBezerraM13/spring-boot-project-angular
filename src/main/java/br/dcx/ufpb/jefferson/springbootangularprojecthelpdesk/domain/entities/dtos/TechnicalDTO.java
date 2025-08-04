@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,12 +19,13 @@ public class TechnicalDTO implements Serializable {
     private String cpf;
     private String email;
     private String password;
-    private Set<Integer> profiles;
+    private Set<Integer> profiles = new HashSet<>();
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate created = LocalDate.now();
 
     public TechnicalDTO() {
+        addProfile(Profile.CLIENT);
     }
 
     public TechnicalDTO(Technical technical) {
@@ -34,6 +36,7 @@ public class TechnicalDTO implements Serializable {
         this.password = technical.getPassword();
         this.profiles = technical.getProfiles().stream().map(Profile::getCode).collect(Collectors.toSet());
         this.created = technical.getCreated();
+        addProfile(Profile.CLIENT);
     }
 
     public Integer getId() {
@@ -90,5 +93,16 @@ public class TechnicalDTO implements Serializable {
 
     public void setCreated(LocalDate created) {
         this.created = created;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof TechnicalDTO that)) return false;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getCpf(), that.getCpf()) && Objects.equals(getEmail(), that.getEmail()) && Objects.equals(getPassword(), that.getPassword()) && Objects.equals(getProfiles(), that.getProfiles()) && Objects.equals(getCreated(), that.getCreated());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getCpf(), getEmail(), getPassword(), getProfiles(), getCreated());
     }
 }
