@@ -46,5 +46,9 @@ public class TechnicalService {
         if(person.isPresent() && person.get().getId() != objDto.getId()) {
             throw new DataIntegrityViolationException("CPF já cadastrado no sistema");
         }
+        Optional<Person> person2 = personRepository.findByEmail(objDto.getEmail());
+        if(person2.isPresent() && person2.get().getId() != objDto.getId()) {
+            throw new DataIntegrityViolationException("Email já cadastrado no sistema");
+        }
     }
 }
