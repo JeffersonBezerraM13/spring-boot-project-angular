@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Arrays;
+
 /**
  * Carga incial de teste para popular o bando de dados
  */
@@ -38,19 +40,22 @@ public class InstantiationDbTest implements CommandLineRunner {
     public void run(String... args) throws Exception {
         cleanDb();
 
-        Technical tech1 = new Technical(null,"Bob Green","906.812.820-53","bob@gmail.com","123");
-        Technical tech2 = new Technical(null,"Carl Yellow", "917.489.110-31", "carl@gmail.com","123");
-        technicalRepository.save(tech2);
+        Technical tech1 = new Technical(null,"Ana Green","906.812.820-53","ana@gmail.com","123");
         tech1.addProfile(Profile.ADMIN);
+        Technical tech2 = new Technical(null,"Bob Yellow", "917.489.110-31", "bob@gmail.com","123");
+        Technical tech3 = new Technical(null,"Carl Pink", "859.288.630-98","carl@gmail.com,","123");
 
-        Client cli1 = new Client(null,"Ana Pink", "859.288.630-98","ana@gmail.com,","123");
+        Client cli1 = new Client(null,"Dan Pink", "630.691.410-21","dan@gmail.com,","123");
+        cli1.addProfile(Profile.ADMIN);
+        Client cli2 = new Client(null,"Emma Black", "757.722.020-57","emma@gmail.com,","123");
+        Client cli3 = new Client(null,"Finn Grey", "983.680.740-37","finn@gmail.com,","123");
 
-        Call c1 = new Call(null, Priorit.MEDIUM, Status.IN_PROGRESS,"Chamado 01","Primeiro chamado",tech1,cli1);
+        Call c1 = new Call(null, Priorit.MEDIUM, Status.IN_PROGRESS,"Chamado 01","Primeiro chamado",tech1, cli1);
+        Call c2 = new Call(null, Priorit.HIGH, Status.IN_PROGRESS,"Chamado 02","Segundo chamado",tech1,cli2);
 
-        technicalRepository.save(tech1);
-
-        clientRepository.save(cli1);
-        callRepository.save(c1);
+        technicalRepository.saveAll(Arrays.asList(tech1,tech2,tech3));
+        clientRepository.saveAll(Arrays.asList(cli1,cli2,cli3));
+        callRepository.saveAll(Arrays.asList(c1,c2));
     }
 
     private void cleanDb() {
