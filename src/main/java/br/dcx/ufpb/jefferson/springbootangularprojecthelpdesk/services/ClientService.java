@@ -9,6 +9,7 @@ import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.exception
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.exceptions.ObjectNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public class ClientService {
     private ClientRepository ClientRepository;
     @Autowired
     private PersonRepository personRepository;
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     public List<Client> findAll() {
         return ClientRepository.findAll();
@@ -36,6 +39,10 @@ public class ClientService {
 
     public Client create(ClientDTO obj){
         obj.setId(null); //nullando o id para que o repository nao entenda que o id possa ser uma atualização
+
+        //encryptando a senha
+        obj.setPassword(encoder.encode(obj.getPassword()));
+
         validatedByCpfAndEmail(obj);
         Client newObj = new Client(obj);
         //.save() é uma chamada assincrona, ele vai lá no banco primeiro

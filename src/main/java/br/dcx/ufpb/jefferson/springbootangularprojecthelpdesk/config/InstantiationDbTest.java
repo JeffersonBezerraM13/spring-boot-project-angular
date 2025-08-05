@@ -13,6 +13,7 @@ import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.Techn
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Arrays;
 
@@ -36,19 +37,22 @@ public class InstantiationDbTest implements CommandLineRunner {
     @Autowired
     private TechnicalRepository technicalRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     @Override
     public void run(String... args) throws Exception {
         clearDb();
 
-        Technical tech1 = new Technical(null,"Ana Green","906.812.820-53","ana@gmail.com","123");
+        Technical tech1 = new Technical(null,"Ana Green","906.812.820-53","ana@gmail.com",encoder.encode("123"));
         tech1.addProfile(Profile.ADMIN);
-        Technical tech2 = new Technical(null,"Bob Yellow", "917.489.110-31", "bob@gmail.com","123");
-        Technical tech3 = new Technical(null,"Carl Pink", "859.288.630-98","carl@gmail.com,","123");
+        Technical tech2 = new Technical(null,"Bob Yellow", "917.489.110-31", "bob@gmail.com",encoder.encode("123"));
+        Technical tech3 = new Technical(null,"Carl Pink", "859.288.630-98","carl@gmail.com",encoder.encode("123"));
 
-        Client cli1 = new Client(null,"Dan Pink", "630.691.410-21","dan@gmail.com,","123");
+        Client cli1 = new Client(null,"Dan Pink", "630.691.410-21","dan@gmail.com",encoder.encode("123"));
         cli1.addProfile(Profile.ADMIN);
-        Client cli2 = new Client(null,"Emma Black", "757.722.020-57","emma@gmail.com,","123");
-        Client cli3 = new Client(null,"Finn Grey", "983.680.740-37","finn@gmail.com,","123");
+        Client cli2 = new Client(null,"Emma Black", "757.722.020-57","emma@gmail.com",encoder.encode("123"));
+        Client cli3 = new Client(null,"Finn Grey", "983.680.740-37","finn@gmail.com",encoder.encode("123"));
 
         Call c1 = new Call(null, Priority.LOW, Status.OPEN,"Chamado 01","Primeiro chamado",tech1, cli1);
         Call c2 = new Call(null, Priority.HIGH, Status.IN_PROGRESS,"Chamado 02","Segundo chamado",tech1,cli2);
