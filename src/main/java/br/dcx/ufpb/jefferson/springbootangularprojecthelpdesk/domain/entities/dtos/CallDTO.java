@@ -1,10 +1,6 @@
 package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.dtos;
 
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Call;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Client;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Technical;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Priorit;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,10 +22,8 @@ public class CallDTO implements Serializable {
      * e sim uma referencia a eles
      */
     @NotNull(message = "O campo PRIORIDADE é requerido")
-    @NotBlank(message = "O campo PRIORIDADE não pode ser vazio")
     private Integer priorit;
     @NotNull(message = "O campo STATUS é requerido")
-    @NotBlank(message = "O campo STATUS não pode ser vazio")
     private Integer status;
     @NotNull(message = "O campo TÍTULO é requerido")
     @NotBlank(message = "O campo TÍTULO não pode ser vazio")
@@ -38,10 +32,8 @@ public class CallDTO implements Serializable {
     @NotBlank(message = "O campo OBSERVAÇÕES não pode ser vazio")
     private String observations;
     @NotNull(message = "O campo TÉCNICO é requerido")
-    @NotBlank(message = "O campo TÉCNICO não pode ser vazio")
     private Integer technical;
     @NotNull(message = "O campo CLIENTE é requerido")
-    @NotBlank(message = "O campo CLIENTE não pode ser vazio")
     private Integer client;
     //atributo já pensando no front
     private String technicalName;
@@ -60,7 +52,7 @@ public class CallDTO implements Serializable {
         this.observations = obj.getObservations();
         this.technical = obj.getTechnical().getId();
         this.client = obj.getClient().getId();
-        this.technicalName = obj.getClient().getName();
+        this.technicalName = obj.getTechnical().getName();
         this.clientName = obj.getClient().getName();
     }
 

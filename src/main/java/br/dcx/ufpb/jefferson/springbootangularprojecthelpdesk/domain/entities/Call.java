@@ -1,6 +1,6 @@
 package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities;
 
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Priorit;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Priority;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -24,7 +24,7 @@ public class Call implements Serializable {
     private LocalDate closingDate;
 
 
-    private Priorit priorit;
+    private Priority priority;
     private Status status;
     private String title;
     private String observations;
@@ -40,9 +40,9 @@ public class Call implements Serializable {
     public Call() {
     }
 
-    public Call(Integer id, Priorit priorit, Status status, String title, String observations, Technical technical, Client client) {
+    public Call(Integer id, Priority priority, Status status, String title, String observations, Technical technical, Client client) {
         this.id = id;
-        this.priorit = priorit;
+        this.priority = priority;
         this.status = status;
         this.title = title;
         this.observations = observations;
@@ -74,12 +74,12 @@ public class Call implements Serializable {
         this.closingDate = closingDate;
     }
 
-    public Priorit getPriorit() {
-        return priorit;
+    public Priority getPriorit() {
+        return priority;
     }
 
-    public void setPriorit(Priorit priorit) {
-        this.priorit = priorit;
+    public void setPriorit(Priority priority) {
+        this.priority = priority;
     }
 
     public Status getStatus() {

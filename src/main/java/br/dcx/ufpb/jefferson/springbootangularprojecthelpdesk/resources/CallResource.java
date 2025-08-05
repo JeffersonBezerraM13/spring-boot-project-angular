@@ -3,13 +3,13 @@ package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.resources;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Call;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.dtos.CallDTO;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.CallService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,5 +31,17 @@ public class CallResource {
     public ResponseEntity<List<CallDTO>> findAll(){
         List<CallDTO> calls = callService.findAll().stream().map(c->new CallDTO(c)).collect(Collectors.toList());
         return ResponseEntity.ok(calls);
+    }
+
+    @PostMapping
+    public ResponseEntity<CallDTO> create(@Valid @RequestBody CallDTO objDto){
+        Call obj = callService.create(objDto);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(
+                        obj.getId()
+                ).toUri();
+        return ResponseEntity.created(uri).body(new CallDTO(obj));
     }
 }

@@ -1,6 +1,6 @@
 package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums;
 
-public enum Priorit {
+public enum Priority {
     LOW(0,"LOW"),
     MEDIUM(1,"MEDIUM"),
     HIGH(2,"HIGH");
@@ -8,7 +8,7 @@ public enum Priorit {
     private Integer code;
     private String description;
 
-    Priorit(Integer valor, String role) {
+    Priority(Integer valor, String role) {
         this.code = valor;
         this.description = role;
     }
@@ -21,11 +21,11 @@ public enum Priorit {
         return description;
     }
 
-    public static Priorit toEnum(Integer code){
+    public static Priority toEnum(Integer code){
         if(code == null){
             return null;
         }
-        for(Priorit p : Priorit.values()){
+        for(Priority p : Priority.values()){
             if(p.getCode().equals(code)){
                 return p;
             }
