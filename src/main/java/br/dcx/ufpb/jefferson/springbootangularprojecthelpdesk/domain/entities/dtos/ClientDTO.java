@@ -1,6 +1,6 @@
 package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.dtos;
 
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Technical;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Client;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Profile;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class TechnicalDTO implements Serializable {
+public class ClientDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
@@ -34,18 +34,18 @@ public class TechnicalDTO implements Serializable {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate created = LocalDate.now();
 
-    public TechnicalDTO() {
+    public ClientDTO() {
         addProfile(Profile.CLIENT);
     }
 
-    public TechnicalDTO(Technical technical) {
-        this.id = technical.getId();
-        this.name = technical.getName();
-        this.cpf = technical.getCpf();
-        this.email = technical.getEmail();
-        this.password = technical.getPassword();
-        this.profiles = technical.getProfiles().stream().map(Profile::getCode).collect(Collectors.toSet());
-        this.created = technical.getCreated();
+    public ClientDTO(Client Client) {
+        this.id = Client.getId();
+        this.name = Client.getName();
+        this.cpf = Client.getCpf();
+        this.email = Client.getEmail();
+        this.password = Client.getPassword();
+        this.profiles = Client.getProfiles().stream().map(Profile::getCode).collect(Collectors.toSet());
+        this.created = Client.getCreated();
         addProfile(Profile.CLIENT);
     }
 
@@ -107,7 +107,7 @@ public class TechnicalDTO implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof TechnicalDTO that)) return false;
+        if (!(o instanceof ClientDTO that)) return false;
         return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getCpf(), that.getCpf()) && Objects.equals(getEmail(), that.getEmail()) && Objects.equals(getPassword(), that.getPassword()) && Objects.equals(getProfiles(), that.getProfiles()) && Objects.equals(getCreated(), that.getCreated());
     }
 

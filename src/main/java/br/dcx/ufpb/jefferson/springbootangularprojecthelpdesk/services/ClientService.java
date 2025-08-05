@@ -1,10 +1,10 @@
 package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services;
 
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Person;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Technical;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.dtos.TechnicalDTO;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Client;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.dtos.ClientDTO;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.PersonRepository;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.TechnicalRepository;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.ClientRepository;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.exceptions.DataIntegrityViolationException;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.exceptions.ObjectNotFoundException;
 import jakarta.validation.Valid;
@@ -15,50 +15,50 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TechnicalService {
+public class ClientService {
 
     @Autowired
-    private TechnicalRepository technicalRepository;
+    private ClientRepository ClientRepository;
     @Autowired
     private PersonRepository personRepository;
 
-    public List<Technical> findAll() {
-        return technicalRepository.findAll();
+    public List<Client> findAll() {
+        return ClientRepository.findAll();
     }
 
-    public Technical findById(Integer id) {
-        return technicalRepository
+    public Client findById(Integer id) {
+        return ClientRepository
                 .findById(id)
                 .orElseThrow(
-                        () -> new ObjectNotFoundException("Technical not found, id: " + id)
+                        () -> new ObjectNotFoundException("Client not found, id: " + id)
                 );
     }
 
-    public Technical create(TechnicalDTO obj){
+    public Client create(ClientDTO obj){
         obj.setId(null); //nullando o id para que o repository nao entenda que o id possa ser uma atualização
         validatedByCpfAndEmail(obj);
-        Technical newObj = new Technical(obj);
+        Client newObj = new Client(obj);
         //.save() é uma chamada assincrona, ele vai lá no banco primeiro
-        return technicalRepository.save(newObj);
+        return ClientRepository.save(newObj);
     }
 
-    public Technical update(Integer id, @Valid TechnicalDTO objDTO) {
+    public Client update(Integer id, @Valid ClientDTO objDTO) {
         objDTO.setId(id);
-        Technical oldObj = findById(id);
+        Client oldObj = findById(id);
         validatedByCpfAndEmail(objDTO); //passou dessa linha, não lançou nenhuma exception
-        oldObj = new Technical(objDTO);
-        return technicalRepository.save(oldObj);
+        oldObj = new Client(objDTO);
+        return ClientRepository.save(oldObj);
     }
 
     public void delete(Integer id) {
-        Technical obj = findById(id);
+        Client obj = findById(id);
         if(obj.getCalls().size() > 0){
-            throw new DataIntegrityViolationException("Técnico possui ordens de serviço e NÃO PODE SER DELETADO");
+            throw new DataIntegrityViolationException("Cliente possui ordens de serviço e NÃO PODE SER DELETADO");
         }
-        technicalRepository.deleteById(id);
+        ClientRepository.deleteById(id);
     }
 
-    private void validatedByCpfAndEmail(TechnicalDTO objDto) {
+    private void validatedByCpfAndEmail(ClientDTO objDto) {
         Optional<Person> person = personRepository.findByCpf(objDto.getCpf());
         if(person.isPresent() && person.get().getId() != objDto.getId()) {
             throw new DataIntegrityViolationException("CPF já cadastrado no sistema");
