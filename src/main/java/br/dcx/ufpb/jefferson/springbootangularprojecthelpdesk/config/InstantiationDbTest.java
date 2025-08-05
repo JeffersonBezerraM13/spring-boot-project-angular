@@ -50,7 +50,7 @@ public class InstantiationDbTest implements CommandLineRunner {
         Client cli2 = new Client(null,"Emma Black", "757.722.020-57","emma@gmail.com,","123");
         Client cli3 = new Client(null,"Finn Grey", "983.680.740-37","finn@gmail.com,","123");
 
-        Call c1 = new Call(null, Priority.MEDIUM, Status.IN_PROGRESS,"Chamado 01","Primeiro chamado",tech1, cli1);
+        Call c1 = new Call(null, Priority.LOW, Status.OPEN,"Chamado 01","Primeiro chamado",tech1, cli1);
         Call c2 = new Call(null, Priority.HIGH, Status.IN_PROGRESS,"Chamado 02","Segundo chamado",tech1,cli2);
 
         technicalRepository.saveAll(Arrays.asList(tech1,tech2,tech3));

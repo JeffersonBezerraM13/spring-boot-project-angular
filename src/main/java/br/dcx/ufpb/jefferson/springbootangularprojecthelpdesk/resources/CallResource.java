@@ -44,4 +44,10 @@ public class CallResource {
                 ).toUri();
         return ResponseEntity.created(uri).body(new CallDTO(obj));
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<CallDTO> update(@PathVariable Integer id, @Valid @RequestBody CallDTO objDto){
+        Call newObj = callService.update(id,objDto);
+        return ResponseEntity.ok().body(new CallDTO(newObj));
+    }
 }
