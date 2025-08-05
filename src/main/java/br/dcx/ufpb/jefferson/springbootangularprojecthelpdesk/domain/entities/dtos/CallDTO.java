@@ -6,6 +6,8 @@ import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Te
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Priorit;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -18,12 +20,29 @@ public class CallDTO implements Serializable {
     private LocalDate openingDate = LocalDate.now();
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate closingDate;
-    private Priorit priorit;
-    private Status status;
+    /**
+     * Integer nessas referencias de priorit, status, technical e client
+     * pois o chamadaDto não quer pegar todos essas informações para criar um chamado
+     * e sim uma referencia a eles
+     */
+    @NotNull(message = "O campo PRIORIDADE é requerido")
+    @NotBlank(message = "O campo PRIORIDADE não pode ser vazio")
+    private Integer priorit;
+    @NotNull(message = "O campo STATUS é requerido")
+    @NotBlank(message = "O campo STATUS não pode ser vazio")
+    private Integer status;
+    @NotNull(message = "O campo TÍTULO é requerido")
+    @NotBlank(message = "O campo TÍTULO não pode ser vazio")
     private String title;
+    @NotNull(message = "O campo OBSERVAÇÕES é requerido")
+    @NotBlank(message = "O campo OBSERVAÇÕES não pode ser vazio")
     private String observations;
-    private Technical technical;
-    private Client client;
+    @NotNull(message = "O campo TÉCNICO é requerido")
+    @NotBlank(message = "O campo TÉCNICO não pode ser vazio")
+    private Integer technical;
+    @NotNull(message = "O campo CLIENTE é requerido")
+    @NotBlank(message = "O campo CLIENTE não pode ser vazio")
+    private Integer client;
     //atributo já pensando no front
     private String technicalName;
     private String clientName;
@@ -35,12 +54,12 @@ public class CallDTO implements Serializable {
         this.id = obj.getId();
         this.openingDate = obj.getOpeningDate();
         this.closingDate = obj.getClosingDate();
-        this.priorit = obj.getPriorit();
-        this.status = obj.getStatus();
+        this.priorit = obj.getPriorit().getCode();
+        this.status = obj.getStatus().getCode();
         this.title = obj.getTitle();
         this.observations = obj.getObservations();
-        this.technical = obj.getTechnical();
-        this.client = obj.getClient();
+        this.technical = obj.getTechnical().getId();
+        this.client = obj.getClient().getId();
         this.technicalName = obj.getClient().getName();
         this.clientName = obj.getClient().getName();
     }
@@ -69,19 +88,19 @@ public class CallDTO implements Serializable {
         this.closingDate = closingDate;
     }
 
-    public Priorit getPriorit() {
+    public Integer getPriorit() {
         return priorit;
     }
 
-    public void setPriorit(Priorit priorit) {
+    public void setPriorit(Integer priorit) {
         this.priorit = priorit;
     }
 
-    public Status getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -101,19 +120,19 @@ public class CallDTO implements Serializable {
         this.observations = observations;
     }
 
-    public Technical getTechnical() {
+    public Integer getTechnical() {
         return technical;
     }
 
-    public void setTechnical(Technical technical) {
+    public void setTechnical(Integer technical) {
         this.technical = technical;
     }
 
-    public Client getClient() {
+    public Integer getClient() {
         return client;
     }
 
-    public void setClient(Client client) {
+    public void setClient(Integer client) {
         this.client = client;
     }
 
