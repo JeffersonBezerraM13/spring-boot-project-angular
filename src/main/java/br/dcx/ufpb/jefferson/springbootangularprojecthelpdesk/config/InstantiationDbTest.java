@@ -38,7 +38,7 @@ public class InstantiationDbTest implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        cleanDb();
+        clearDb();
 
         Technical tech1 = new Technical(null,"Ana Green","906.812.820-53","ana@gmail.com","123");
         tech1.addProfile(Profile.ADMIN);
@@ -58,7 +58,7 @@ public class InstantiationDbTest implements CommandLineRunner {
         callRepository.saveAll(Arrays.asList(c1,c2));
     }
 
-    private void cleanDb() {
+    private void clearDb() {
         callRepository.deleteAll();
         clientRepository.deleteAll();
         personRepository.deleteAll();
