@@ -1,5 +1,6 @@
 package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -52,5 +53,48 @@ public class JWTConfig {
     public SecretKey getSecretKey() {
         byte[] keyBytes = Base64.getDecoder().decode(jwtSecretBase64);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    /**
+     * Verifica se o token é válido (assinado corretamente e não expirado).
+     */
+    public boolean validToken(String token) {
+        Claims claims = getClaims(token);
+        if(claims != null) {
+            String userName = claims.getSubject();
+            Date expirationDate = claims.getExpiration();
+            Date now = new Date(System.currentTimeMillis());
+
+            if(userName != null && expirationDate != null && now.before(expirationDate)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Extrai o nome de usuário (subject) do token.
+     */
+    public String getUserName(String token) {
+        Claims claims = getClaims(token);
+        if(claims != null){
+            return claims.getSubject();
+        }
+        return null;
+    }
+
+    /**
+     * Obtém os Claims (dados) contidos no token JWT (Base64 - Retornado no metodo .getSecretKey()).
+     */
+    private Claims getClaims(String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSecretKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

@@ -6,6 +6,7 @@ import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.Technical
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -36,6 +37,7 @@ public class TechnicalResource {
                 .body(new TechnicalDTO(technicalService.findById(id)));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     public ResponseEntity<TechnicalDTO> create(@Valid @RequestBody TechnicalDTO objDTO){
         Technical newObj = technicalService.create(objDTO);
@@ -49,12 +51,14 @@ public class TechnicalResource {
         return ResponseEntity.created(uri).body(new TechnicalDTO(newObj));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<TechnicalDTO> update(@PathVariable Integer id,@Valid @RequestBody TechnicalDTO objDTO){
         Technical obj = technicalService.update(id,objDTO);
         return ResponseEntity.ok().body(new TechnicalDTO(obj));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<TechnicalDTO> delete(@PathVariable Integer id){
         technicalService.delete(id);

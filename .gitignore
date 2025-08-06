@@ -31,3 +31,15 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Spring Boot sensitive files
+application.properties
+application.yml
+application-*.properties
+application-*.yml
+.env
+.secret
+*.key
+*.pem
+*.p12
+*.jks

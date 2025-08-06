@@ -2,6 +2,7 @@ package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services;
 
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Person;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.repositories.PersonRepository;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.security.UserDetailsImpl;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.security.UserSS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,10 +21,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     //usamos o email no projeto
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Person> user = personRepository.findByEmail(email);
-        if(user.isPresent()) {
-            return new UserSS(user.get().getId(),user.get().getEmail(),user.get().getPassword(),user.get().getProfiles());
-        }
-        throw new UsernameNotFoundException(email);
+        Person user = personRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return new UserDetailsImpl(user);
     }
 }

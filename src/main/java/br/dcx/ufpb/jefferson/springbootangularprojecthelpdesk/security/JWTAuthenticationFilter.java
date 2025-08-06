@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
@@ -22,19 +23,14 @@ import java.util.Date;
  * Ao estender UsernamePasswordAuthenticationFilter, o Spring automaticamente entende
  * que esta classe será usada para o processo de login.
  */
-public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-
-    /**
-     * Interface principal de estratégia para autenticação.
-     * O método `authenticate()` verifica se as credenciais são válidas e, em caso afirmativo,
-     * retorna um objeto Authentication com o estado autenticado. Caso contrário, lança uma exceção.
-     */
-    private final AuthenticationManager authenticationManager;
+public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private final JWTConfig jwtConfig;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTConfig jwtConfig) {
-        this.authenticationManager = authenticationManager;
+
+    public JWTAuthenticationFilter(String defaultFilterProcessesUrl, AuthenticationManager authenticationManager, JWTConfig jwtConfig) {
+        super(defaultFilterProcessesUrl);
+        setAuthenticationManager(authenticationManager);
         this.jwtConfig = jwtConfig;
         setFilterProcessesUrl("/login"); // Define o endpoint que será interceptado por este filtro
     }
@@ -48,20 +44,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      * @throws AuthenticationException se a autenticação falhar
      */
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        try {
-            // Converte o corpo da requisição JSON em um objeto CredentialsDTO
-            CredentialsDTO credentials = new ObjectMapper().readValue(request.getInputStream(), CredentialsDTO.class);
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
+        CredentialsDTO credentials = new ObjectMapper().readValue(request.getInputStream(), CredentialsDTO.class);
 
-            // Cria um token de autenticação com o email e a senha
-            UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword());
 
-            // Realiza a autenticação usando o AuthenticationManager
-            return authenticationManager.authenticate(authenticationToken);
-        } catch (IOException e) {
-            throw new RuntimeException("Erro ao tentar autenticar o usuário", e);
-        }
+        return getAuthenticationManager().authenticate(authenticationToken);
     }
 
     /**
@@ -78,10 +67,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain, Authentication authResult)
             throws IOException, ServletException {
 
-        String userName = ((UserSS) authResult.getPrincipal()).getUsername();
+        String userName = authResult.getName();
         String token = jwtConfig.generateToken(userName);
 
-        response.setHeader("access-control-expose-headers", "Authorization"); // Corrigido o nome do header
+        response.setHeader("access-control-expose-headers", "Authorization");
         response.setHeader("Authorization", "Bearer " + token);
     }
 

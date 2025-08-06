@@ -58,8 +58,6 @@ public class InstantiationDbTest implements CommandLineRunner {
 
         // Criação de clientes
         Client cli1 = new Client(null, "Dan Pink", "630.691.410-21", "dan@gmail.com", encoder.encode("^&OR#4fhaa5gXYJG"));
-        cli1.addProfile(Profile.ADMIN); // Cliente com perfil de admin também
-
         Client cli2 = new Client(null, "Emma Black", "757.722.020-57", "emma@gmail.com", encoder.encode("C:~`F_|4t({__FG:"));
         Client cli3 = new Client(null, "Finn Grey", "983.680.740-37", "finn@gmail.com", encoder.encode("1j]g_;.v944+N(g|"));
 
