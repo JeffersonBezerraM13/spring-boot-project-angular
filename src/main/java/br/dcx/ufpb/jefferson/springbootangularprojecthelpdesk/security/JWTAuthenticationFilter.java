@@ -10,81 +10,112 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
 import java.util.Date;
 
 /**
- * quando eu faço herança com essa classe, automaticamente o spring vai entender que esse filtro vai interceptar a requisição post la no end point /login que é um endpoint reservado para o spring security
+ * Este filtro é responsável por interceptar requisições POST para o endpoint "/login",
+ * que é reservado pelo Spring Security para autenticação.
+ *
+ * Ao estender UsernamePasswordAuthenticationFilter, o Spring automaticamente entende
+ * que esta classe será usada para o processo de login.
  */
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     /**
-     *é a principal interface de estrategia para autenticação, se o principal(usuario e senha) de autenciação de entrada ele for valido e verificado o metodo que ele possui chamadado authenticate retorna uma intancia de authentication com um sinalizador de autenticado definido como verdade, se não, se o principal não for valido esse sinalizador vai retornar um valor null, ou seja ele não vai poder decidir para mim se o cara ta autenticado ou não
+     * Interface principal de estratégia para autenticação.
+     * O método `authenticate()` verifica se as credenciais são válidas e, em caso afirmativo,
+     * retorna um objeto Authentication com o estado autenticado. Caso contrário, lança uma exceção.
      */
-    private AuthenticationManager authenticationManager;
-    private JWTUtil jwtUtil;
+    private final AuthenticationManager authenticationManager;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+    private final JWTConfig jwtConfig;
+
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTConfig jwtConfig) {
         this.authenticationManager = authenticationManager;
-        this.jwtUtil = jwtUtil;
+        this.jwtConfig = jwtConfig;
+        setFilterProcessesUrl("/login"); // Define o endpoint que será interceptado por este filtro
     }
 
+    /**
+     * Tenta autenticar o usuário com base nas credenciais enviadas na requisição.
+     *
+     * @param request  Requisição HTTP contendo o corpo com email e senha
+     * @param response Resposta HTTP
+     * @return Objeto Authentication representando o usuário autenticado
+     * @throws AuthenticationException se a autenticação falhar
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        //convertar o post (endpoint) do /login em credenciais DTO
-        try{
-            CredentialsDTO credentials = new ObjectMapper().readValue(request.getInputStream(),CredentialsDTO.class);
+        try {
+            // Converte o corpo da requisição JSON em um objeto CredentialsDTO
+            CredentialsDTO credentials = new ObjectMapper().readValue(request.getInputStream(), CredentialsDTO.class);
+
+            // Cria um token de autenticação com o email e a senha
             UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(credentials.getEmail(),credentials.getPassword());
-            Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            return authentication;
-        } catch (Exception e){
-            throw new RuntimeException(e);
+                    new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword());
+
+            // Realiza a autenticação usando o AuthenticationManager
+            return authenticationManager.authenticate(authenticationToken);
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao tentar autenticar o usuário", e);
         }
     }
 
     /**
-     * caso dê sucesso vai entrar nesse método
-     * @param request
-     * @param response
-     * @param chain
-     * @param authResult
-     * @throws IOException
-     * @throws ServletException
+     * Este método é chamado automaticamente quando a autenticação for bem-sucedida.
+     * Ele gera o token JWT e o adiciona no cabeçalho da resposta.
+     *
+     * @param request     Requisição HTTP
+     * @param response    Resposta HTTP
+     * @param chain       Filtro da requisição
+     * @param authResult  Resultado da autenticação
      */
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                            FilterChain chain, Authentication authResult)
+            throws IOException, ServletException {
+
         String userName = ((UserSS) authResult.getPrincipal()).getUsername();
-        String token = this.jwtUtil.generateToken(userName);
-        response.setHeader("acess-control-expose-headers", "Authorization");
+        String token = jwtConfig.generateToken(userName);
+
+        response.setHeader("access-control-expose-headers", "Authorization"); // Corrigido o nome do header
         response.setHeader("Authorization", "Bearer " + token);
     }
 
     /**
-     * se não obter o sucesso na autentiação, vai entrar nesse método aqui
-     * @param request
-     * @param response
-     * @param failed
-     * @throws IOException
-     * @throws ServletException
+     * Este método é chamado automaticamente quando a autenticação falha.
+     * Aqui você pode personalizar a resposta de erro (401 - Unauthorized).
+     *
+     * @param request  Requisição HTTP
+     * @param response Resposta HTTP
+     * @param failed   Exceção lançada na tentativa de autenticação
      */
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); //401
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                              AuthenticationException failed)
+            throws IOException, ServletException {
+
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
         response.setContentType("application/json");
-        response.getWriter().append(json());
+        response.getWriter().write(buildJsonError());
     }
 
-    private CharSequence json() {
-        long date = new Date().getTime();
+    /**
+     * Gera a estrutura JSON da resposta de erro 401.
+     *
+     * @return String JSON com detalhes do erro
+     */
+    private String buildJsonError() {
+        long timestamp = new Date().getTime();
         return "{"
-                + "\"timestamp\":" + date + ", "
-                + "\"status\":401, "
-                + "\"error\":\"Não autorizado\""
-                + "\"message\": \"Email ou senha inválidos\", "
-                + "\"path\":\"/login\"";
+                + "\"timestamp\": " + timestamp + ","
+                + "\"status\": 401,"
+                + "\"error\": \"Não autorizado\","
+                + "\"message\": \"Email ou senha inválidos\","
+                + "\"path\": \"/login\""
+                + "}";
     }
 }
