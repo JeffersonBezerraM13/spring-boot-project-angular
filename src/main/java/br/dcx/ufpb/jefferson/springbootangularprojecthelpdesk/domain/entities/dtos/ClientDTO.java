@@ -3,6 +3,7 @@ package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.d
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Client;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.enums.Profile;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,24 +14,37 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Schema(name = "ClientDTO", description = "Data transfer object para Clientes")
 public class ClientDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Schema(description = "ID do cliente", example = "1")
     private Integer id;
+
+    @Schema(description = "Nome completo do cliente", example = "Albert Einstein", required = true)
     @NotNull(message = "O campo NOME é requirido")
     @NotBlank(message = "O campo NOME não pode ser vazio")
     private String name;
+
+    @Schema(description = "CPF do cliente", example = "123.456.789-00", required = true)
     @NotNull(message = "O campo CPF é requirido")
     @NotBlank(message = "O campo CPF não pode ser vazio")
     private String cpf;
+
+    @Schema(description = "Email do cliente", example = "albert.einstein@email.com", required = true)
     @NotNull(message = "O campo EMAIL é requirido")
     @NotBlank(message = "O campo EMAIL não pode ser vazio")
     private String email;
+
+    @Schema(description = "Senha do cliente", example = "senhaSegura123", required = true)
     @NotNull(message = "O campo SENHA é requirido")
     @NotBlank(message = "O campo SENHA não pode ser vazio")
     private String password;
+
+    @Schema(description = "Conjunto de perfis do cliente, representados por códigos inteiros", example = "[1, 2]")
     private Set<Integer> profiles = new HashSet<>();
 
+    @Schema(description = "Data de criação do registro", example = "25/07/2025", type = "string", format = "date")
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate created = LocalDate.now();
 
