@@ -47,7 +47,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         CredentialsDTO credentials = new ObjectMapper().readValue(request.getInputStream(), CredentialsDTO.class);
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword());
+                new UsernamePasswordAuthenticationToken(credentials.email(), credentials.password());
 
         return getAuthenticationManager().authenticate(authenticationToken);
     }
