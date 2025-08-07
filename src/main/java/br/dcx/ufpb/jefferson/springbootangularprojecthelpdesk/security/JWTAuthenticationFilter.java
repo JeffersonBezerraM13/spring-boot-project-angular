@@ -11,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
 import java.util.Date;
@@ -25,13 +24,13 @@ import java.util.Date;
  */
 public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    private final JWTConfig jwtConfig;
+    private final JWTUtil jwtUtil;
 
 
-    public JWTAuthenticationFilter(String defaultFilterProcessesUrl, AuthenticationManager authenticationManager, JWTConfig jwtConfig) {
+    public JWTAuthenticationFilter(String defaultFilterProcessesUrl, AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
         super(defaultFilterProcessesUrl);
         setAuthenticationManager(authenticationManager);
-        this.jwtConfig = jwtConfig;
+        this.jwtUtil = jwtUtil;
         setFilterProcessesUrl("/login"); // Define o endpoint que será interceptado por este filtro
     }
 
@@ -68,7 +67,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
             throws IOException, ServletException {
 
         String userName = authResult.getName();
-        String token = jwtConfig.generateToken(userName);
+        String token = jwtUtil.generateToken(userName);
 
         response.setHeader("access-control-expose-headers", "Authorization");
         response.setHeader("Authorization", "Bearer " + token);

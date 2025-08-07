@@ -15,7 +15,7 @@ import java.util.Date;
  * Componente responsável pela geração de tokens JWT e fornecimento da chave secreta usada para assinatura.
  */
 @Component
-public class JWTConfig {
+public class JWTUtil {
 
     /**
      * Tempo de expiração do token (em milissegundos), definido no application.properties.

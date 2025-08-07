@@ -2,7 +2,7 @@ package br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.config;
 
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.security.JWTAuthenticationFilter;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.security.JWTAuthorizationFilter;
-import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.security.JWTConfig;
+import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +37,7 @@ public class SecurityConfig {
     private Environment env;
 
     @Autowired
-    private JWTConfig jwtConfig;
+    private JWTUtil jwtUtil;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -53,11 +53,11 @@ public class SecurityConfig {
 
         // Filtro de autenticação (login)
         JWTAuthenticationFilter authenticationFilter =
-                new JWTAuthenticationFilter("/login", authenticationManager, jwtConfig);
+                new JWTAuthenticationFilter("/login", authenticationManager, jwtUtil);
 
         // Filtro de autorização (JWT em requests)
         JWTAuthorizationFilter authorizationFilter =
-                new JWTAuthorizationFilter(jwtConfig, userDetailsService);
+                new JWTAuthorizationFilter(jwtUtil, userDetailsService);
 
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
