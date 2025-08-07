@@ -30,7 +30,10 @@ public class SecurityConfig {
 
     private static final String[] PUBLIC_MATCHES = {
             "/login",
-            "/h2-console/**"
+            "/h2-console/**",
+            "/v3/api-docs/**",
+            "/swagger-ui.html",
+            "/swagger-ui/**"
     };
 
     @Autowired
