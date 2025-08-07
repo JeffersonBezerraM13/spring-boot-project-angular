@@ -4,6 +4,7 @@ import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Te
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.dtos.TechnicalDTO;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.TechnicalService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 /**
  * Controlador responsável por expor os endpoints relacionados aos Técnicos do sistema.
  */
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping(value = "/technicians")
 @Tag(name = "Técnicos",description = "Endpoins para gerenciar técnicos")
@@ -63,6 +65,7 @@ public class TechnicalResource {
      * @param objDTO Dados do novo técnico
      * @return Técnico criado (DTO) com URI de localização
      */
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     @Operation(summary = "Cria um novo técnico.")
@@ -86,6 +89,7 @@ public class TechnicalResource {
      * @param objDTO Novos dados
      * @return Técnico atualizado (DTO)
      */
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
     @Operation(summary = "Atualiza os dados de um técnico existente.")
@@ -101,6 +105,7 @@ public class TechnicalResource {
      * @param id ID do técnico a ser removido
      * @return Sem conteúdo (204)
      */
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "Remove um técnico pelo ID.")

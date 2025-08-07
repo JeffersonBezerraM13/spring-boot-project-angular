@@ -4,18 +4,20 @@ import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.Ca
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.domain.entities.dtos.CallDTO;
 import br.dcx.ufpb.jefferson.springbootangularprojecthelpdesk.services.CallService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping(value = "/calls")
 @Tag(name = "Chamados", description = "Gerenciamento dos chamados do sistema")
@@ -56,6 +58,8 @@ public class CallResource {
      * @param objDto Dados do chamado para criação
      * @return Chamado criado (DTO) com URI de localização
      */
+    @SecurityRequirement(name = "bearerAuth")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     @Operation(summary = "Cria um novo chamado.")
     public ResponseEntity<CallDTO> create(@Valid @RequestBody CallDTO objDto){
@@ -77,6 +81,8 @@ public class CallResource {
      * @param objDto Novos dados do chamado
      * @return Chamado atualizado (DTO)
      */
+    @SecurityRequirement(name = "bearerAuth")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
     @Operation(summary = "Atualiza um chamado existente pelo ID.")
     public ResponseEntity<CallDTO> update(@PathVariable Integer id, @Valid @RequestBody CallDTO objDto){
