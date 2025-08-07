@@ -1,0 +1,12 @@
+package br.dcx.ufpb.jefferson.springbootprojecthelpbridge.repositories;
+
+import br.dcx.ufpb.jefferson.springbootprojecthelpbridge.domain.entities.Person;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface PersonRepository extends JpaRepository<Person, Integer> {
+
+    Optional<Person> findByCpf(String cpf);
+    Optional<Person> findByEmail(String email);
+}

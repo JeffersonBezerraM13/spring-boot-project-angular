@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>br.dcx.ufpb.jefferson</groupId>
-    <artifactId>spring-boot-angular-project-help-desk</artifactId>
+    <artifactId>spring-boot-project-help-bridge</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-boot-angular-project-help-desk</name>
     <description>spring-boot-angular-project-help-desk</description>
